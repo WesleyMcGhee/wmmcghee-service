@@ -12,6 +12,8 @@ func main() {
   e := echo.New()
 
   e.Use(middleware.CORS())
+  e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
+  e.Use(middleware.BodyLimit("4M"))
 
   e.GET("/", func (c echo.Context) error {
     return c.String(http.StatusOK, "Hello World")
